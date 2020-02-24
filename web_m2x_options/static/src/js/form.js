@@ -87,6 +87,47 @@ odoo.define('web_m2x_options.web_m2x_options', function (require) {
     });
 
     FieldMany2One.include({
+
+        start: function () {
+            this._super.apply(this, arguments);
+            return this.get_options();
+        },
+
+        get_options: function () {
+            var self = this;
+            if (_.isUndefined(this.ir_options_loaded)) {
+                this.ir_options_loaded = $.Deferred();
+                this.ir_options = {};
+                web_m2x_options.done(function (records) {
+                    _(records).each(function(record) {
+                        self.ir_options[record.key] = record.value;
+                    });
+                    self.ir_options_loaded.resolve();
+                });
+            }
+            return $.when();
+        },
+
+        is_option_set: function (option) {
+            if (_.isUndefined(option))
+                return false;
+            if (typeof option === 'string')
+                return option === 'true' || option === 'True';
+            if (typeof option === 'boolean')
+                return option;
+            return false
+        },
+
+        _bindAutoComplete: function () {
+            var self = this
+            this._super.apply(this, arguments);
+            this.get_options().done(function(){
+                if (!_.isUndefined(self.ir_options['web_m2x_options.m2o_search_delay'])) {
+                    self.$input.autocomplete("option", "delay",  parseInt(self.ir_options['web_m2x_options.m2o_search_delay']));
+                }
+            })
+        },
+
         _onInputFocusout: function () {
             var m2o_dialog_opt = is_option_set(this.nodeOptions.m2o_dialog) || _.isUndefined(this.nodeOptions.m2o_dialog) && is_option_set(ir_options['web_m2x_options.m2o_dialog']) || _.isUndefined(this.nodeOptions.m2o_dialog) && _.isUndefined(ir_options['web_m2x_options.m2o_dialog']);
             if (this.can_create && this.floating && m2o_dialog_opt) {

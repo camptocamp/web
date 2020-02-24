@@ -49,6 +49,10 @@ ir.config_parameter options
 Now you can disable "Create..." and "Create and Edit..." entry for all widgets in the odoo instance.
 If you disable one option, you can enable it for particular field by setting "create: True" option directly on the field definition.
 
+``search_delay`` *int* (Default: odoo default value is ``200``)
+
+  Number of milliseconds after a user input to trigger the ``name_search``.
+
 ``web_m2x_options.create`` *boolean* (Default: depends if user have create rights)
 
   Whether to display the "Create..." entry in dropdown panel for all fields in the odoo instance.
@@ -81,6 +85,7 @@ To add these parameters go to Configuration -> Technical -> Parameters -> System
 - web_m2x_options.limit: 10
 - web_m2x_options.search_more: True
 - web_m2x_options.field_limit_entries: 5
+- web_m2x_options.m2o_search_delay: 800
 
 
 Example
