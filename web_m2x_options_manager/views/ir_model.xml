@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_model_form_inherit" model="ir.ui.view">
+        <field name="name">view.model.form.inherit</field>
+        <field name="model">ir.model</field>
+        <field name="inherit_id" ref="base.view_model_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fields']" position="after">
+                <page string="Create/Edit Options" name="create_edit_options">
+                    <div>
+                        <button name="button_fill" type="object" string="Fill" />
+                        <button name="button_empty" type="object" string="Empty" />
+                    </div>
+                    <field
+                        name="m2x_create_edit_option_ids"
+                        nolabel="1"
+                        context="{'default_ir_model_name': model}"
+                    >
+                        <tree string="Fields Description" editable="bottom">
+                            <field name="ir_model_name" invisible="1" />
+                            <field
+                                name="ir_model_field_id"
+                                domain="[('ttype', 'in', ('many2one', 'many2many')), ('model_id.model', '=', ir_model_name)]"
+                            />
+                            <field name="option" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
