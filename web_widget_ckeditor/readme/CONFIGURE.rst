@@ -1,0 +1,29 @@
+This module doesn't do anything on its own, other than registering a new widget
+valid for `html` fields.
+
+In order to actually use the `ckeditor` widget, it has to be explicitly set on
+the desired `ir.ui.view`.
+
+.. code-block:: xml
+
+    <field name="description_html" widget="ckeditor" />
+
+
+The CKEditor toolbar can be customized with an `ir.config_parameter`. To do so,
+please create a parameter named `web_widget_ckeditor.toolbar`, and set the desired
+toolbar items using either `,`, `space` or `newline` as separators.
+
+.. code-block::
+
+    heading
+    | bold italic underline removeFormat
+    | fontSize fontColor fontBackgroundColor
+    | bulletedList numberedList alignment
+    | outdent indent pagebreak
+    | link imageUpload blockQuote insertTable
+    | undo redo
+
+
+There's more information about available toolbar items in the
+`official CKEditor documentation page
+<https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html>`_
