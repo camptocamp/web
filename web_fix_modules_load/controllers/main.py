@@ -40,3 +40,8 @@ class WebClientPatched(WebClient):
     def jslist(self, mods=None):
         mods = self._get_mod_names(mods)
         return super().jslist(mods=mods)
+
+    @http.route()
+    def translations(self, unique, mods=None, lang=None):
+        mods = self._get_mod_names(mods)
+        return super().translations(unique, mods, lang)
