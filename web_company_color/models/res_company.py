@@ -44,13 +44,13 @@ class ResCompany(models.Model):
             }
           }
         }
-        a[href],
+        a[href].o_form_uri,
         a[tabindex],
         .btn-link,
         .o_external_button {
           color: %(color_link_text)s !important;
         }
-        a:hover,
+        a.o_form_uri:hover,
         .btn-link:hover {
           color: %(color_link_text_hover)s !important;
         }
