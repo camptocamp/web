@@ -4,7 +4,7 @@
 {
     "name": "Web Select All Companies",
     "summary": "Allows you to select all companies in one click.",
-    "version": "15.0.1.0.0",
+    "version": "14.0.1.0.0",
     "category": "Web",
     "website": "https://github.com/OCA/web",
     "author": "Camptocamp, Odoo Community Association (OCA)",
