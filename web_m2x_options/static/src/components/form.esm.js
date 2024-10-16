@@ -1,4 +1,5 @@
 /** @odoo-module **/
+import {registry} from "@web/core/registry";
 import {
     Many2ManyTagsField,
     Many2ManyTagsFieldColorEditable,
@@ -64,7 +65,7 @@ Many2ManyTagsAvatarField.props = {
 };
 
 patch(many2OneField, {
-    m2o_options_props_create(props, attrs, options) {
+    m2oOptionsPropsCreate(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (options.create === false) {
             props.canQuickCreate = false;
@@ -88,7 +89,7 @@ patch(many2OneField, {
         return props;
     },
 
-    m2o_options_props_create_edit(props, attrs, options) {
+    m2oOptionsPropsCreateEdit(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (options.create_edit === false) {
             props.canCreateEdit = false;
@@ -114,7 +115,7 @@ patch(many2OneField, {
         return props;
     },
 
-    m2o_options_props_limit(props, attrs, options) {
+    m2oOptionsPropsLimit(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (Number(options.limit)) {
             props.searchLimit = Number(options.limit);
@@ -124,7 +125,7 @@ patch(many2OneField, {
         return props;
     },
 
-    m2o_options_props_search_more(props, attrs, options) {
+    m2oOptionsPropsSearchMore(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (options.search_more) {
             props.noSearchMore = false;
@@ -141,7 +142,7 @@ patch(many2OneField, {
         return props;
     },
 
-    m2o_options_props_open(props, attrs, options) {
+    m2oOptionsPropsOpen(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (options.open) {
             props.canOpen = true;
@@ -155,12 +156,12 @@ patch(many2OneField, {
         return props;
     },
 
-    m2o_options_props(props, attrs, options) {
-        props = this.m2o_options_props_create(props, attrs, options);
-        props = this.m2o_options_props_create_edit(props, attrs, options);
-        props = this.m2o_options_props_limit(props, attrs, options);
-        props = this.m2o_options_props_search_more(props, attrs, options);
-        props = this.m2o_options_props_open(props, attrs, options);
+    m2oOptionsProps(props, attrs, options) {
+        props = this.m2oOptionsPropsCreate(props, attrs, options);
+        props = this.m2oOptionsPropsCreateEdit(props, attrs, options);
+        props = this.m2oOptionsPropsLimit(props, attrs, options);
+        props = this.m2oOptionsPropsSearchMore(props, attrs, options);
+        props = this.m2oOptionsPropsOpen(props, attrs, options);
         props.fieldColor = options.field_color;
         props.fieldColorOptions = options.colors;
         return props;
@@ -170,7 +171,7 @@ patch(many2OneField, {
             {attrs, context, decorations, options, string},
             dynamicInfo
         );
-        const new_props = this.m2o_options_props(props, attrs, options);
+        const new_props = this.m2oOptionsProps(props, attrs, options);
         return new_props;
     },
 });
@@ -198,7 +199,7 @@ patch(Many2OneField.prototype, {
 });
 
 patch(many2ManyTagsField, {
-    m2m_options_props_create(props, attrs, options) {
+    m2mOptionsPropsCreate(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         // Create option already available for m2m fields
         if (!options.create) {
@@ -219,7 +220,7 @@ patch(many2ManyTagsField, {
         return props;
     },
 
-    m2m_options_props_create_edit(props, attrs, options) {
+    m2mOptionsPropsCreateEdit(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (options.create_edit === false) {
             props.canCreateEdit = false;
@@ -245,7 +246,7 @@ patch(many2ManyTagsField, {
         return props;
     },
 
-    m2m_options_props_limit(props, attrs, options) {
+    m2mOptionsPropsLimit(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (Number(options.limit) && options.limit > 1) {
             props.searchLimit = Number(options.limit) - 1;
@@ -258,7 +259,7 @@ patch(many2ManyTagsField, {
         return props;
     },
 
-    m2m_options_props_search_more(props, attrs, options) {
+    m2mOptionsPropsSearchMore(props, attrs, options) {
         const ir_options = session.web_m2x_options;
         if (options.search_more) {
             props.noSearchMore = false;
@@ -275,18 +276,18 @@ patch(many2ManyTagsField, {
         return props;
     },
 
-    m2m_options_props(props, attrs, options) {
-        props = this.m2m_options_props_create(props, attrs, options);
-        props = this.m2m_options_props_create_edit(props, attrs, options);
-        props = this.m2m_options_props_limit(props, attrs, options);
-        props = this.m2m_options_props_search_more(props, attrs, options);
+    m2mOptionsProps(props, attrs, options) {
+        props = this.m2mOptionsPropsCreate(props, attrs, options);
+        props = this.m2mOptionsPropsCreateEdit(props, attrs, options);
+        props = this.m2mOptionsPropsLimit(props, attrs, options);
+        props = this.m2mOptionsPropsSearchMore(props, attrs, options);
         props.fieldColor = options.field_color;
         props.fieldColorOptions = options.colors;
         return props;
     },
     extractProps({attrs, options, string}, dynamicInfo) {
         const props = super.extractProps({attrs, options, string}, dynamicInfo);
-        const new_props = this.m2m_options_props(props, attrs, options);
+        const new_props = this.m2mOptionsProps(props, attrs, options);
         return new_props;
     },
 });
@@ -377,4 +378,19 @@ patch(FormController.prototype, {
             }
         }
     },
+});
+
+// O.W.L. v18+: schema is validated in dev mode on adding to registry
+patch(registry.category("fields").validationSchema, {
+    m2oOptionsPropsCreate: {type: Function, optional: true},
+    m2oOptionsPropsCreateEdit: {type: Function, optional: true},
+    m2oOptionsPropsLimit: {type: Function, optional: true},
+    m2oOptionsPropsSearchMore: {type: Function, optional: true},
+    m2oOptionsPropsOpen: {type: Function, optional: true},
+    m2oOptionsProps: {type: Function, optional: true},
+    m2mOptionsPropsCreate: {type: Function, optional: true},
+    m2mOptionsPropsCreateEdit: {type: Function, optional: true},
+    m2mOptionsPropsLimit: {type: Function, optional: true},
+    m2mOptionsPropsSearchMore: {type: Function, optional: true},
+    m2mOptionsProps: {type: Function, optional: true},
 });
