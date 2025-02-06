@@ -19,6 +19,12 @@ import {isX2Many} from "@web/views/utils";
 import {patch} from "@web/core/utils/patch";
 import {session} from "@web/session";
 
+function is_option_set(option) {
+    if (typeof option === "string") return option === "true" || option === "True";
+    if (typeof option === "boolean") return option;
+    return false;
+}
+
 Many2OneField.props = {
     ...Many2OneField.props,
     noSearchMore: {type: Boolean, optional: true},
@@ -74,12 +80,12 @@ patch(many2OneField, {
                 ? evaluateBooleanExpr(attrs.can_create)
                 : true;
         } else if (
-            ir_options["web_m2x_options.create"] === "False" &&
+            is_option_set(ir_options["web_m2x_options.create"]) &&
             props.canQuickCreate
         ) {
             props.canQuickCreate = false;
         } else if (
-            ir_options["web_m2x_options.create"] === "True" &&
+            is_option_set(ir_options["web_m2x_options.create"]) &&
             !props.canQuickCreate
         ) {
             props.canQuickCreate = attrs.can_create
@@ -99,12 +105,12 @@ patch(many2OneField, {
                 ? evaluateBooleanExpr(attrs.can_create)
                 : true;
         } else if (
-            ir_options["web_m2x_options.create_edit"] === "False" &&
+            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
             props.canCreateEdit
         ) {
             props.canCreateEdit = false;
         } else if (
-            ir_options["web_m2x_options.create_edit"] === "True" &&
+            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
             !props.canCreateEdit
         ) {
             // Same condition set in web/views/fields/many2one/many2one_field
@@ -132,11 +138,11 @@ patch(many2OneField, {
         } else if (options.search_more === false) {
             props.noSearchMore = true;
         } else if (
-            ir_options["web_m2x_options.search_more"] === "True" &&
+            is_option_set(ir_options["web_m2x_options.search_more"]) &&
             props.noSearchMore
         ) {
             props.noSearchMore = false;
-        } else if (ir_options["web_m2x_options.search_more"] === "False") {
+        } else if (is_option_set(ir_options["web_m2x_options.search_more"])) {
             props.noSearchMore = true;
         }
         return props;
@@ -148,9 +154,9 @@ patch(many2OneField, {
             props.canOpen = true;
         } else if (options.open === false) {
             props.canOpen = false;
-        } else if (ir_options["web_m2x_options.open"] === "True") {
+        } else if (is_option_set(ir_options["web_m2x_options.open"])) {
             props.canOpen = true;
-        } else if (ir_options["web_m2x_options.open"] === "False") {
+        } else if (is_option_set(ir_options["web_m2x_options.open"])) {
             props.canOpen = false;
         }
         return props;
@@ -204,12 +210,12 @@ patch(many2ManyTagsField, {
         // Create option already available for m2m fields
         if (!options.create) {
             if (
-                ir_options["web_m2x_options.create"] === "False" &&
+                is_option_set(ir_options["web_m2x_options.create"]) &&
                 props.canQuickCreate
             ) {
                 props.canQuickCreate = false;
             } else if (
-                ir_options["web_m2x_options.create"] === "True" &&
+                is_option_set(ir_options["web_m2x_options.create"]) &&
                 !props.canQuickCreate
             ) {
                 props.canQuickCreate = attrs.can_create
@@ -230,12 +236,12 @@ patch(many2ManyTagsField, {
                 ? evaluateBooleanExpr(attrs.can_create)
                 : true;
         } else if (
-            ir_options["web_m2x_options.create_edit"] === "False" &&
+            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
             props.canCreateEdit
         ) {
             props.canCreateEdit = false;
         } else if (
-            ir_options["web_m2x_options.create_edit"] === "True" &&
+            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
             !props.canCreateEdit
         ) {
             // Same condition set in web/views/fields/many2one/many2one_field
@@ -266,11 +272,11 @@ patch(many2ManyTagsField, {
         } else if (options.search_more === false) {
             props.noSearchMore = true;
         } else if (
-            ir_options["web_m2x_options.search_more"] === "True" &&
+            is_option_set(ir_options["web_m2x_options.search_more"]) &&
             props.noSearchMore
         ) {
             props.noSearchMore = false;
-        } else if (ir_options["web_m2x_options.search_more"] === "False") {
+        } else if (is_option_set(ir_options["web_m2x_options.search_more"])) {
             props.noSearchMore = true;
         }
         return props;
