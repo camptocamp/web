@@ -1,16 +1,24 @@
 /** @odoo-module **/
 import {registry} from "@web/core/registry";
+import { exprToBoolean } from "@web/core/utils/strings";
 import {
     Many2ManyTagsField,
     Many2ManyTagsFieldColorEditable,
     many2ManyTagsField,
 } from "@web/views/fields/many2many_tags/many2many_tags_field";
 import {Many2OneField, many2OneField} from "@web/views/fields/many2one/many2one_field";
+import {
+    Many2OneReferenceField
+} from "@web/views/fields/many2one_reference/many2one_reference_field";
 import {FormController} from "@web/views/form/form_controller";
 import {
     KanbanMany2OneAvatarField,
     Many2OneAvatarField,
 } from "@web/views/fields/many2one_avatar/many2one_avatar_field";
+import {
+    KanbanMany2OneAvatarUserField,
+    Many2OneAvatarUserField
+} from "@mail/views/web/fields/many2one_avatar_user_field/many2one_avatar_user_field";
 import {Many2ManyTagsAvatarField} from "@web/views/fields/many2many_tags_avatar/many2many_tags_avatar_field";
 
 import {Many2XAutocomplete} from "@web/views/fields/relational_utils";
@@ -18,12 +26,6 @@ import {evaluateBooleanExpr} from "@web/core/py_js/py";
 import {isX2Many} from "@web/views/utils";
 import {patch} from "@web/core/utils/patch";
 import {session} from "@web/session";
-
-function is_option_set(option) {
-    if (typeof option === "string") return option === "true" || option === "True";
-    if (typeof option === "boolean") return option;
-    return false;
-}
 
 Many2OneField.props = {
     ...Many2OneField.props,
@@ -45,6 +47,27 @@ KanbanMany2OneAvatarField.props = {
 
 Many2OneAvatarField.props = {
     ...Many2OneAvatarField.props,
+    noSearchMore: {type: Boolean, optional: true},
+    fieldColor: {type: String, optional: true},
+    fieldColorOptions: {type: Object, optional: true},
+};
+
+KanbanMany2OneAvatarUserField.props = {
+    ...KanbanMany2OneAvatarUserField.props,
+    noSearchMore: {type: Boolean, optional: true},
+    fieldColor: {type: String, optional: true},
+    fieldColorOptions: {type: Object, optional: true},
+};
+
+Many2OneAvatarUserField.props = {
+    ...Many2OneAvatarUserField.props,
+    noSearchMore: {type: Boolean, optional: true},
+    fieldColor: {type: String, optional: true},
+    fieldColorOptions: {type: Object, optional: true},
+};
+
+Many2OneReferenceField.props = {
+    ...Many2OneReferenceField.props,
     noSearchMore: {type: Boolean, optional: true},
     fieldColor: {type: String, optional: true},
     fieldColorOptions: {type: Object, optional: true},
@@ -80,12 +103,12 @@ patch(many2OneField, {
                 ? evaluateBooleanExpr(attrs.can_create)
                 : true;
         } else if (
-            is_option_set(ir_options["web_m2x_options.create"]) &&
+            !exprToBoolean(ir_options["web_m2x_options.create"]) &&
             props.canQuickCreate
         ) {
             props.canQuickCreate = false;
         } else if (
-            is_option_set(ir_options["web_m2x_options.create"]) &&
+            exprToBoolean(ir_options["web_m2x_options.create"]) &&
             !props.canQuickCreate
         ) {
             props.canQuickCreate = attrs.can_create
@@ -105,12 +128,12 @@ patch(many2OneField, {
                 ? evaluateBooleanExpr(attrs.can_create)
                 : true;
         } else if (
-            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
+            !exprToBoolean(ir_options["web_m2x_options.create_edit"]) &&
             props.canCreateEdit
         ) {
             props.canCreateEdit = false;
         } else if (
-            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
+            exprToBoolean(ir_options["web_m2x_options.create_edit"]) &&
             !props.canCreateEdit
         ) {
             // Same condition set in web/views/fields/many2one/many2one_field
@@ -138,11 +161,11 @@ patch(many2OneField, {
         } else if (options.search_more === false) {
             props.noSearchMore = true;
         } else if (
-            is_option_set(ir_options["web_m2x_options.search_more"]) &&
+            exprToBoolean(ir_options["web_m2x_options.search_more"]) &&
             props.noSearchMore
         ) {
             props.noSearchMore = false;
-        } else if (is_option_set(ir_options["web_m2x_options.search_more"])) {
+        } else if (!exprToBoolean(ir_options["web_m2x_options.search_more"])) {
             props.noSearchMore = true;
         }
         return props;
@@ -154,9 +177,9 @@ patch(many2OneField, {
             props.canOpen = true;
         } else if (options.open === false) {
             props.canOpen = false;
-        } else if (is_option_set(ir_options["web_m2x_options.open"])) {
+        } else if (exprToBoolean(ir_options["web_m2x_options.open"])) {
             props.canOpen = true;
-        } else if (is_option_set(ir_options["web_m2x_options.open"])) {
+        } else if (!exprToBoolean(ir_options["web_m2x_options.open"])) {
             props.canOpen = false;
         }
         return props;
@@ -210,12 +233,12 @@ patch(many2ManyTagsField, {
         // Create option already available for m2m fields
         if (!options.create) {
             if (
-                is_option_set(ir_options["web_m2x_options.create"]) &&
+                !exprToBoolean(ir_options["web_m2x_options.create"]) &&
                 props.canQuickCreate
             ) {
                 props.canQuickCreate = false;
             } else if (
-                is_option_set(ir_options["web_m2x_options.create"]) &&
+                exprToBoolean(ir_options["web_m2x_options.create"]) &&
                 !props.canQuickCreate
             ) {
                 props.canQuickCreate = attrs.can_create
@@ -236,12 +259,12 @@ patch(many2ManyTagsField, {
                 ? evaluateBooleanExpr(attrs.can_create)
                 : true;
         } else if (
-            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
+            !exprToBoolean(ir_options["web_m2x_options.create_edit"]) &&
             props.canCreateEdit
         ) {
             props.canCreateEdit = false;
         } else if (
-            is_option_set(ir_options["web_m2x_options.create_edit"]) &&
+            exprToBoolean(ir_options["web_m2x_options.create_edit"]) &&
             !props.canCreateEdit
         ) {
             // Same condition set in web/views/fields/many2one/many2one_field
@@ -272,11 +295,11 @@ patch(many2ManyTagsField, {
         } else if (options.search_more === false) {
             props.noSearchMore = true;
         } else if (
-            is_option_set(ir_options["web_m2x_options.search_more"]) &&
+            !exprToBoolean(ir_options["web_m2x_options.search_more"]) &&
             props.noSearchMore
         ) {
             props.noSearchMore = false;
-        } else if (is_option_set(ir_options["web_m2x_options.search_more"])) {
+        } else if (exprToBoolean(ir_options["web_m2x_options.search_more"])) {
             props.noSearchMore = true;
         }
         return props;
