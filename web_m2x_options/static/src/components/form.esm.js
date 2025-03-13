@@ -1,15 +1,13 @@
 /** @odoo-module **/
 import {registry} from "@web/core/registry";
-import { exprToBoolean } from "@web/core/utils/strings";
+import {exprToBoolean} from "@web/core/utils/strings";
 import {
     Many2ManyTagsField,
     Many2ManyTagsFieldColorEditable,
     many2ManyTagsField,
 } from "@web/views/fields/many2many_tags/many2many_tags_field";
 import {Many2OneField, many2OneField} from "@web/views/fields/many2one/many2one_field";
-import {
-    Many2OneReferenceField
-} from "@web/views/fields/many2one_reference/many2one_reference_field";
+import {Many2OneReferenceField} from "@web/views/fields/many2one_reference/many2one_reference_field";
 import {FormController} from "@web/views/form/form_controller";
 import {
     KanbanMany2OneAvatarField,
@@ -17,7 +15,7 @@ import {
 } from "@web/views/fields/many2one_avatar/many2one_avatar_field";
 import {
     KanbanMany2OneAvatarUserField,
-    Many2OneAvatarUserField
+    Many2OneAvatarUserField,
 } from "@mail/views/web/fields/many2one_avatar_user_field/many2one_avatar_user_field";
 import {Many2ManyTagsAvatarField} from "@web/views/fields/many2many_tags_avatar/many2many_tags_avatar_field";
 
