@@ -29,7 +29,8 @@ Web M2X Options Manager
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
 Allows managing the "Create..." and "Create and Edit..." options for
-Many2one and Many2many fields directly from the ir.model form view.
+``Many2one`` and ``Many2many`` fields directly from the ``ir.model``
+form view.
 
 **Table of contents**
 
@@ -42,10 +43,18 @@ Usage
 Go to Settings > Technical > Models.
 
 Choose the model you wish to edit, and open its form view. Go to the
-"Create/Edit Options" tab, and add the fields you want to manage.
+"Create/Edit Options" tab, and add the fields you want to manage in 2
+different sections:
 
-Button "Fill" will add every missing field to the options. Button
-"Empty" will remove every option.
+-  the first list view allows you to handle fields for the selected
+   model
+-  the second list view allows you to handle fields where the selected
+   model is the comodel
+
+For both sections:
+
+-  button "Fill" will add every missing field to the options
+-  button "Empty" will remove every option
 
 Bug Tracker
 ===========
