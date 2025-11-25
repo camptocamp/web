@@ -1,0 +1,23 @@
+/*
+-    Copyright 2025 Camptocamp SA (https://www.camptocamp.com).
+-    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-*/
+
+/* Define the height of the whole cell */
+.o_field_product_label_section_and_note_cell {
+    height: 10em;
+    max-height: 10em;
+    display: flex;
+}
+
+/* Make textarea fill the cell and scroll */
+.o_field_product_label_section_and_note_cell {
+    textarea {
+        flex: 5 5 auto;
+        width: 100%;
+        height: 100% !important;
+        resize: none;
+        display: block;
+        overflow-y: auto; // internal scroll
+    }
+}
