@@ -26,7 +26,15 @@ class TestM2xCreateEditOption(Common):
             self._eval_node_options(form_doc.xpath("//field[@name='category_id']")[0]),
             {"create": False, "create_edit": False},
         )
-
+        # Check the JSON-like options fields
+        self.assertEqual(
+            self._eval_node_options(form_doc.xpath("//field[@name='type']")[0]),
+            {"horizontal": True},
+        )
+        self.assertEqual(
+            self._eval_node_options(form_doc.xpath("//field[@name='phone']")[0]),
+            {"enable_sms": False},
+        )
         # Create options, check view has been updated
         self._create_opt(
             "res.partner",
@@ -68,6 +76,15 @@ class TestM2xCreateEditOption(Common):
             # These change values because the options are defined w/ 'force_true':
             # options' values are overridden even if the node already contains them
             {"create": True, "create_edit": True},
+        )
+        # JSON-like options fields should remain unchanged
+        self.assertEqual(
+            self._eval_node_options(form_doc.xpath("//field[@name='type']")[0]),
+            {"horizontal": True},
+        )
+        self.assertEqual(
+            self._eval_node_options(form_doc.xpath("//field[@name='phone']")[0]),
+            {"enable_sms": False},
         )
 
         # Update options on ``res.partner.parent_id``, check its node has been updated

@@ -26,7 +26,7 @@ class Common(TransactionCase):
     def _eval_node_options(node):
         opt = node.attrib.get("options")
         if opt:
-            return safe_eval(opt, nocopy=True)
+            return safe_eval(opt, {"true": True, "false": False}, nocopy=True)
         return {}
 
     @classmethod

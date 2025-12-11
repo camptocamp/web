@@ -16,6 +16,9 @@
                             name="parent_id"
                             options="{'create': False, 'create_edit': False}"
                         />
+                        <!-- Many2one w/ JSON-like options -->
+                        <field name="type" options="{'horizontal': true}" />
+                        <field name="phone" options="{'enable_sms': false}" />
                         <!-- Many2many w/ options -->
                         <field
                             name="category_id"
