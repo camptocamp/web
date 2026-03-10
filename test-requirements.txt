@@ -1,0 +1,2 @@
+odoo-addon-web_m2x_options @ git+https://github.com/OCA/web.git@refs/pull/3382/head#subdirectory=web_m2x_options
+odoo-addon-base_view_inheritance_extension @ git+https://github.com/OCA/server-tools.git@refs/pull/3382/head#subdirectory=base_view_inheritance_extension
