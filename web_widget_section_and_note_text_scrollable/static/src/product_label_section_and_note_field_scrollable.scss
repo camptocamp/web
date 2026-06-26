@@ -1,0 +1,38 @@
+/*
+-    Copyright 2025 Camptocamp SA (https://www.camptocamp.com).
+-    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-*/
+
+/* Read mode:
+    1. Make cell scrollable.
+    2. Don't change its height.
+*/
+.o_field_product_label_section_and_note_cell:not(:has(textarea)) {
+    display: block !important;
+    max-height: 10em;
+    overflow-y: auto;
+}
+
+/* Edit mode:
+    1. Make the textarea itself the scrollable area.
+    2. Don't change its height.
+*/
+.o_field_product_label_section_and_note_field textarea,
+.o_field_product_label_section_and_note_cell textarea {
+    display: block;
+    width: 100%;
+    height: 10em !important;
+    max-height: 10em !important;
+    resize: none;
+    overflow-y: auto;
+}
+
+/* Edit mode:
+    1. Reset cell height, otherwise the row grows to the textarea's full content height.
+*/
+.o_field_widget.o_field_sol_product_many2one:has(textarea),
+.o_field_product_label_section_and_note_field:has(textarea),
+.o_field_product_label_section_and_note_cell:has(textarea) {
+    height: auto !important;
+    max-height: none !important;
+}
